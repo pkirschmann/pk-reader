@@ -1,0 +1,46 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>PK's Reader</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="stylesheet" href="styles.css">
+  <header class="topbar">
+    <div class="brand">PK’s Reader</div>
+    <input id="search" class="search" type="search" placeholder="Search…" />
+    <div class="actions">
+      <button id="toggle-theme" title="Toggle theme">🌓</button>
+      <button id="mark-all-read" title="Mark all as read (Shift+A)">✓ All</button>
+      <label class="btn">
+        Import OPML
+        <input id="opml-input" type="file" accept=".opml,.xml" hidden />
+      </label>
+      <button id="export-opml">Export OPML</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="section-title">Feeds</div>
+      <nav id="feed-list"></nav>
+    </aside>
+
+    <section class="content">
+      <div class="panes">
+        <div class="list" id="item-list"></div>
+        <article class="reader" id="reader">
+          <div class="empty">Select an article</div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="status">
+    <span id="status-text">Loading…</span>
+  </footer>
+
+  app.js</script>
+</body>
+</html>
