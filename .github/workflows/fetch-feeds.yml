@@ -1,0 +1,53 @@
+
+name: Fetch feeds
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'feeds.json'
+      - 'tools/**'
+      - 'package.json'
+      - 'package-lock.json'
+  schedule:
+    - cron: '*/30 * * * *'  # every 30 minutes
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install deps
+        run: npm ci || npm i
+
+      - name: Convert OPML to feeds.json (if subscriptions.opml present)
+        run: node tools/opml_to_feeds.js
+        continue-on-error: true
+
+      - name: Fetch feeds and build data/items.json
+        run: node tools/fetch-feeds.js
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ -n "$(git status --porcelain)" ]; then
+            git add data/items.json feeds.json
+            git commit -m "Update data ($(date -u +'%Y-%m-%d %H:%M:%S UTC'))"
+            git push
+          else
+            echo "No changes to commit"
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
