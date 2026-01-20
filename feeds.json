@@ -1,0 +1,8 @@
+
+{
+  "feeds": [
+    { "title": "Hacker News", "url": "https://news.ycombinator.com/rss", "folder": "Tech" },
+    { "title": "The Verge", "url": "https://www.theverge.com/rss/index.xml", "folder": "Tech" },
+    { "title": "Ars Technica", "url": "https://arstechnica.com/feed/", "folder": "Tech" }
+  ]
+}
